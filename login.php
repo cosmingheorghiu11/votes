@@ -1,26 +1,8 @@
 <?php include "inc/head.php"; ?>
 
 <?php
-$error="";
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    // username and password sent from form
-
-    $myemail = $_POST['email'];
-    $mypassword = $_POST['password'];
-
-    $user = $entityManager->getRepository('User')->findOneBy(array('email' => $myemail, 'password' => sha1($mypassword)));
-
-
-
-    // If result matched $myusername and $mypassword, table row must be 1 row
-
-    if($user) {
-        $_SESSION['login_user'] = $user;
-
-        header("location: /");
-    }else {
-        $error = "Your Login Name or Password is invalid";
-    }
+    $userImplementation->login($_POST['email'], $_POST['password']);
 }
 ?>
 <div class="container">
@@ -39,11 +21,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input name="password" type="password" class="form-control" placeholder="Password" required>
                             <label for="inputPassword">Password</label>
                         </div>
-                        <?php if($error){?>
+                        <?php if(isset($_GET['msg'])) {
+                            if($_GET['msg'] == 1){?>
                             <div class="alert alert-danger" role="alert">
                                 Wrong e-mail or password!
                             </div>
-                        <?php }?>
+                        <?php } elseif ($_GET['msg'] == 2){?>
+                            <div class="alert alert-success" role="alert">
+                                Account created!
+                            </div>
+                            <?php }
+                        }?>
                         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                     </form>
                 </div>

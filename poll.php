@@ -1,15 +1,14 @@
-<?php include "inc/head.php"; ?>
-<?php
-$pollRepository = $entityManager->getRepository('Poll');
-$poll = $pollRepository->findOneBy(array('id' => $_GET["id"]));
-
+<?php include "inc/head.php";
+$poll = $pollImplementation->listOne($_GET['id']);
 $voteRepository = $entityManager->getRepository('Vote');
-$votesYes = $voteRepository->findBy(array('poll' => $poll, 'choice' => 'yes'));
-$votesNo = $voteRepository->findBy(array('poll' => $poll, 'choice' => 'no'));
+$votesYes = $voteImplementation->listByPollChoice('yes', $poll);
+$votesNo = $voteImplementation->listByPollChoice('no', $poll);
+$currentUserVote = $voteImplementation->currentUserByPoll($poll);
 
-$currentUserVote = $voteRepository->findOneBy(array('user' => $user_logged, 'poll' => $poll));
+
 
 ?>
+
 <?php if($currentUserVote){?>
         <h1 class="text-center">Vote for: <?php echo $poll->getName();?></h1>
         <h2 class="text-center">Description: <?php echo $poll->getDescription(); ?></h2>
@@ -18,7 +17,7 @@ $currentUserVote = $voteRepository->findOneBy(array('user' => $user_logged, 'pol
         <p class="text-center">Your Vote: <?php echo $currentUserVote->getChoice(); ?></p>
 
 <?php } else {?>
-    <form method="post" action="create_vote.php?poll_id=<?php echo $poll->getId() ?>">
+    <form method="post" action="create_vote.php?poll_id=<?php echo $poll->getId(); ?>">
         <div class="form-check">
             <input class="form-check-input" type="radio" name="vote" id="option1" value="yes">
             <label class="form-check-label" for="option1">
@@ -33,6 +32,7 @@ $currentUserVote = $voteRepository->findOneBy(array('user' => $user_logged, 'pol
         </div>
         <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
     </form>
+
 
 <?php } ?>
 

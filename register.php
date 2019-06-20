@@ -19,7 +19,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input name="password" type="password" class="form-control" placeholder="Password" required>
                             <label for="inputPassword">Password</label>
                         </div>
-                        <?php if(isset($_GET["err"]) && $_GET["err"] == 1){?>
+                        <?php if(isset($_GET["msg"]) && $_GET["msg"] == 1){?>
                             <div class="alert alert-danger" role="alert">
                                 You have an account already!
                                 <a href="/login.php">Sign In</a>

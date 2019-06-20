@@ -15,13 +15,19 @@
                 <ul class="navbar-nav ml-auto">
                     <?php
                     if(isset($_SESSION['login_user'])){?>
+
                         <li class="nav-item">
-                            <a href="#" class="nav-link" ><?php echo $user_logged->getEmail();?></a>
+                            <a href="user.php?id=<?php echo $user_logged->getId(); ?>" class="nav-link" ><?php echo $user_logged->getEmail();?></a>
                         </li>
-                    <li class="nav-item">
-                        <a href="/logout.php" class="btn btn-primary nav-link" role="button">Logout</a>
-                    </li>
-                    <?php
+                        <?php if($_SESSION['login_user']->getIsAdmin()){?>
+                        <li class="nav-item">
+                            <a href="add.php" class="btn btn-outline-success nav-link" role="button">Add Poll</a>
+                        </li>
+                            <?php }?>
+                        <li class="nav-item">
+                            <a href="/logout.php" class="btn btn-primary nav-link" role="button">Logout</a>
+                        </li>
+                        <?php
                 }
                 else{
                 ?>

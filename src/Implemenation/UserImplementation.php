@@ -1,20 +1,24 @@
 <?php
 
 
+
 class UserImplementation{
 
-    public function show($id)
+    private $userRepository;
+    private $em;
+
+
+    public function __construct()
     {
         include "bootstrap.php";
-        $user = $entityManager->getRepository('User')->findOneBy(array('id' => $id));
-        return $user;
+        $this->userRepository = $entityManager->getRepository('User');
+        $this->em = $entityManager;
     }
+
 
     public function create($email, $password)
     {
-        include "bootstrap.php";
-
-        $existinguser = $entityManager->getRepository('User')->findOneBy(array('email' => $email));
+        $existinguser = $this->userRepository->findOneBy(array('email' => $email));
 
         if(!$existinguser){
             $user = new User();
@@ -22,18 +26,28 @@ class UserImplementation{
             $user->setPassword($password);
             $user->setIsAdmin(false);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-            header("location: /login.php?err=2");
+            $this->em->persist($user);
+            $this->em->flush();
+            header("location: /login.php?msg=2");
         }
         else{
-            header("location: /register.php?err=1");
+            header("location: /register.php?msg=1");
         }
     }
 
-    public function test()
+    public function login($email, $password)
     {
-        include "bootstrap.php";
-        echo "test";
+        $user = $this->userRepository->findOneBy(array('email' => $email, 'password' => sha1($password)));
+
+
+        if($user) {
+            $_SESSION['login_user'] = $user;
+
+            header("location: /");
+        }else {
+            header("location: login.php?msg=1"); //err = 1 : Wrong login details
+            //$error = "Your Login Name or Password is invalid";
+        }
     }
+
 }

@@ -1,12 +1,11 @@
 <?php include "inc/head.php";
-$polls = $pollImplementation->listAll();
+$polls = $pollImplementation->listByUserId($_GET['id']);
 ?>
 
 
 
     <div class="container">
-
-
+        <h3><?php echo $_SESSION['login_user']->getEmail() ?> voted for these polls:</h3>
         <table class="table table-striped">
             <thead>
             <tr>

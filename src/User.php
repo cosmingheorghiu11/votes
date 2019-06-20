@@ -26,8 +26,8 @@ class User
     protected $password;
 
     /**
-     * @Column(type="boolean")
-     * @var boolean
+     * @Column(type="integer")
+     * @var integer
      */
     protected $isAdmin;
 
