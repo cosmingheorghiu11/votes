@@ -1,29 +1,6 @@
-<?php include "inc/head.php";
-$polls = $pollImplementation->listAll();
-?>
-
-
-
-    <div class="container">
-
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach($polls as $poll) { ?>
-                <tr>
-                    <th scope="row"><?php echo $poll->getId();?></th>
-                    <th scope="row"><a href="/poll.php?id=<?php echo $poll->getId();?>" ><?php echo $poll->getName();?></a></th>
-                </tr>
-            <?php } ?>
-
-            </tbody>
-        </table>
-    </div>
-
+<?php include "inc/head.php";?>
+<div class="text-center">
+    <h3>Voting App</h3>
+    <h3><a href="polls.php">Polls</a></h3>
+</div>
 <?php include "inc/bott.php" ?>

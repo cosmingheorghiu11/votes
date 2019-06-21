@@ -50,4 +50,45 @@ class UserImplementation{
         }
     }
 
+    public function listAll()
+    {
+        if(!isset($_SESSION['login_user']))
+        {
+            header("location: error.php?err=4"); //You are not logged in
+            return 0;
+        }
+        if($_SESSION['login_user']->getIsAdmin())
+        {
+            $users = $this->userRepository->findAll();
+            return $users;
+        }
+        else
+        {
+            header("location: error.php?err=1"); //You are not an admin
+        }
+
+
+    }
+
+    public function listOne($id)
+    {
+        if(!isset($_SESSION['login_user']))
+        {
+            header("location: error.php?err=4"); //You are not logged in
+            return 0;
+        }
+        $user = $this->userRepository->findOneBy(array('id' => $id));
+        if($_SESSION['login_user'] == $user || $_SESSION['login_user']->getIsAdmin())
+        {
+            return $user;
+        }
+        else
+        {
+            header("location: error.php?err=3"); //You can only see your own votes
+        }
+
+
+
+    }
+
 }

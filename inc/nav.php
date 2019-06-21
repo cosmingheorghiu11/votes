@@ -6,27 +6,30 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Menu1 <span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-
                 <ul class="navbar-nav ml-auto">
                     <?php
                     if(isset($_SESSION['login_user'])){?>
-
-                        <li class="nav-item">
-                            <a href="user.php?id=<?php echo $user_logged->getId(); ?>" class="nav-link" ><?php echo $user_logged->getEmail();?></a>
-                        </li>
                         <?php if($_SESSION['login_user']->getIsAdmin()){?>
                         <li class="nav-item">
-                            <a href="add.php" class="btn btn-outline-success nav-link" role="button">Add Poll</a>
+                            <a href="add.php" class="btn btn-primary-success nav-link" role="button">Add Poll</a>
                         </li>
                             <?php }?>
                         <li class="nav-item">
-                            <a href="/logout.php" class="btn btn-primary nav-link" role="button">Logout</a>
+                            <div class="btn-group">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <?php echo $user_logged->getEmail();?>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <?php if($_SESSION['login_user']->getIsAdmin()){?>
+                                        <a class="dropdown-item" href="users.php">User List</a>
+                                    <?php }else { ?>
+                                        <a class="dropdown-item" href="user.php?id=<?php echo $_SESSION['login_user']->getId()?>">My votes</a>
+                                    <?php } ?>
+                                    <a class="dropdown-item" href="logout.php">Logout</a>
+                                </div>
+                            </div>
                         </li>
+
                         <?php
                 }
                 else{
